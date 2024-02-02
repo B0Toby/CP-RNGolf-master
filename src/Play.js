@@ -49,7 +49,6 @@ class Play extends Phaser.Scene {
         wallA.body.setCollideWorldBounds(true)
         wallA.body.setBounce(1, 0)
         
-
         let wallB = this.physics.add.sprite(0, height/2, 'wall')
         wallB.setX(Phaser.Math.Between(0 + wallB.width/2, width - wallB.width/2))
         wallB.body.setImmovable(true)
@@ -70,23 +69,15 @@ class Play extends Phaser.Scene {
             this.ball.body.setVelocityY(Phaser.Math.Between(this.SHOT_VELOCITY_Y_MIN, this.SHOT_VELOCITY_Y_MAX) * shotDirectionY)
             this.shotCounter++
             this.updateScoreDisplay()
-
-
         })
 
         // cup/ball collision
         this.physics.add.collider(this.ball, this.cup, (ball, cup) => {
-            ball.destroy()
+            this.ball.setPosition(this.game.config.width / 2, this.game.config.height - this.game.config.height / 10)
+            this.ball.body.setVelocity(0, 0)
             this.score++
             this.shotsHit++
             this.updateScoreDisplay()
-
-            this.ball = this.physics.add.sprite(width/2, height-height/10, 'ball')
-            this.ball.body.setCircle(this.ball.width/2)
-            this.ball.body.setCollideWorldBounds(true)
-            this.ball.body.setBounce(0.5)
-            this.ball.body.setDamping(true).setDrag(0.5)
-            
         })
 
         // ball/wall collision
